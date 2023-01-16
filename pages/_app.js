@@ -12,8 +12,8 @@ import { ToastContainer } from "react-toastify";
 function MyApp({ Component, pageProps }) {
   return (
     <LangProvider>
-      <AuthProvider>
-        <CartLengthProvider>
+      <CartLengthProvider>
+        <AuthProvider>
           <ColorThemeProvider>
             <LocationProvider>
               <MenuProvider>
@@ -30,8 +30,8 @@ function MyApp({ Component, pageProps }) {
               </MenuProvider>
             </LocationProvider>
           </ColorThemeProvider>
-        </CartLengthProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </CartLengthProvider>
     </LangProvider>
   );
 }

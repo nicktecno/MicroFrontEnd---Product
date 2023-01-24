@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-import { DeleteBin } from "@styled-icons/remix-line";
-import { CcMastercard } from "@styled-icons/fa-brands/";
 import { PlusCircle } from "@styled-icons/boxicons-solid/";
 import { AlertCircle } from "@styled-icons/evaicons-solid/";
 import { generateMedia } from "styled-media-query";
@@ -9,7 +7,7 @@ import { LeftArrow } from "@styled-icons/boxicons-solid/LeftArrow";
 import { Edit } from "@styled-icons/boxicons-solid/Edit";
 import { BoxOpen } from "@styled-icons/fa-solid/BoxOpen";
 import { EditLocation } from "styled-icons/boxicons-solid";
-import { CreditCard } from "@styled-icons/bootstrap/CreditCard";
+import { CreditCard } from "@styled-icons/fa-regular/CreditCard";
 import { LogOut } from "@styled-icons/evaicons-solid/LogOut";
 import { LibraryBooks } from "@styled-icons/material/LibraryBooks";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
@@ -454,25 +452,6 @@ export const centroAlerta = styled.div`
     font-size: 24px;
     line-height: 32px;
   }
-`;
-
-export const deleteIcon = styled(DeleteBin)`
-  color: #fff;
-  height: 18px;
-  width: 18px;
-  display: inline-block;
-  margin: 0px 5px;
-  cursor: pointer;
-`;
-
-export const masterIcon = styled(CcMastercard)`
-  color: #292728;
-  height: 32px;
-  width: 32px;
-  display: inline-block;
-  margin: 0px 5px;
-  cursor: pointer;
-  opacity: 0.26;
 `;
 
 export const addIcon = styled(PlusCircle)`

@@ -19,6 +19,7 @@ function ProfileComponent({
 
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [promoterValidate, setPromoterValidate] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "auto";
@@ -50,6 +51,7 @@ function ProfileComponent({
         const { data: response } = await api.get("/customer/get");
         const { data: responseAuth } = await api.get("/customer/auth/validate");
 
+        setPromoterValidate(responseAuth);
         setUserName(response.name);
         setEmail(response.email);
       } catch (err) {
@@ -106,8 +108,12 @@ function ProfileComponent({
                 <S.ProfileCard>
                   <S.BuildingIcon />
                   <p>
-                    {routeTranslations !== false &&
-                      routeTranslations.labels.label03}
+                    {promoterValidate.promoter !== undefined &&
+                    promoterValidate.promoter === true
+                      ? routeTranslations !== false &&
+                        routeTranslations.labels.label03
+                      : routeTranslations !== false &&
+                        routeTranslations.labels.label04}
                   </p>
                 </S.ProfileCard>
               </Link>
@@ -116,7 +122,7 @@ function ProfileComponent({
                   <S.UserLockIcon />
                   <p>
                     {routeTranslations !== false &&
-                      routeTranslations.labels.label04}
+                      routeTranslations.labels.label05}
                   </p>
                 </S.ProfileCard>
               </Link>
@@ -128,7 +134,7 @@ function ProfileComponent({
                   <S.PackageIcon />
                   <p>
                     {routeTranslations !== false &&
-                      routeTranslations.labels.label05}
+                      routeTranslations.labels.label06}
                   </p>
                 </S.ProfileCard>
               </Link>
@@ -139,7 +145,7 @@ function ProfileComponent({
                   <S.CreditCardIcon />
                   <p>
                     {routeTranslations !== false &&
-                      routeTranslations.labels.label06}
+                      routeTranslations.labels.label07}
                   </p>
                 </S.ProfileCard>
               </Link>
@@ -148,7 +154,7 @@ function ProfileComponent({
                   <S.BookIcon />
                   <p>
                     {routeTranslations !== false &&
-                      routeTranslations.labels.label07}
+                      routeTranslations.labels.label08}
                   </p>
                 </S.ProfileCard>
               </Link>

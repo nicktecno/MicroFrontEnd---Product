@@ -153,11 +153,13 @@ const multiLang = [
           button01: "Sign out",
           label01: "Edit profile",
           label02: "Shipping address",
-          label03: "Company info",
-          label04: "Access levels",
-          label05: "Orders history",
-          label06: "Payment methods",
-          label07: "Checking Account",
+          label03: "Profile and Photobook",
+          label04: "Turn a partner",
+          label05: "My likes",
+          label06: "Orders history",
+          label07: "Payment methods",
+          label08: "My projects",
+
           languagesPack: [
             {
               name: "Brazilian Portuguese",
@@ -469,11 +471,13 @@ const multiLang = [
           button01: "VOLTAR",
           label01: "Editar perfil",
           label02: "Endereços para entrega",
-          label03: "Dados da empresa",
-          label04: "Níveis de acesso",
-          label05: "Histórico de pedidos",
-          label06: "Formas de pagamento",
-          label07: "Conta corrente",
+          label03: "Ver Perfil e Photobook",
+          label04: "Me associar",
+          label05: "Meus likes",
+          label06: "Histórico de pedidos",
+          label07: "Formas de pagamento",
+          label08: "Meus projetos",
+
           languagesPack: [
             {
               name: "Brazilian Portuguese",

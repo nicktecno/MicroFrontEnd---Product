@@ -41,10 +41,13 @@ const nextConfig = {
           loginPage: `loginPage@https://micro-front-login.vercel.app/_next/static/${
             isServer ? "ssr" : "chunks"
           }/remoteEntry.js`,
+          homePage: `homePage@https://micro-front-home.vercel.app/_next/static/${
+            isServer ? "ssr" : "chunks"
+          }/remoteEntry.js`,
         },
         filename: "static/chunks/remoteEntry.js",
         exposes: {
-          "./profile": "./PagesComponents/Profile/Profile.jsx",
+          "./product": "./PagesComponents/Product/Product.jsx",
         },
 
         extraOptions: {

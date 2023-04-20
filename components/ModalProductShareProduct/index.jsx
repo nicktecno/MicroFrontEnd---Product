@@ -8,6 +8,8 @@ export default function ModalProductShareProduct({
   setShareModal,
   slug,
   page,
+  appUrl,
+  mktName,
 }) {
   function copyText(link) {
     notification("Link copiado", "success");
@@ -41,18 +43,10 @@ export default function ModalProductShareProduct({
           <div className="title">Link de compartilhamento</div>
           <div className="containerCopyURL">
             <div className="url">
-              <input
-                readOnly
-                type="text"
-                value={`${process.env.NEXT_PUBLIC_REACT_APP_URL}/${page}/${slug}`}
-              />
+              <input readOnly type="text" value={`${appUrl}/${page}/${slug}`} />
               <button
                 className="copyButton"
-                onClick={() =>
-                  copyText(
-                    `${process.env.NEXT_PUBLIC_REACT_APP_URL}/${page}/${slug}`
-                  )
-                }
+                onClick={() => copyText(`${appUrl}/${page}/${slug}`)}
               >
                 <Copy />
               </button>
@@ -60,7 +54,7 @@ export default function ModalProductShareProduct({
             <div className="boxButtons">
               <a
                 className="socialMediaButton positiveButton"
-                href={`https://api.whatsapp.com/send?text= Olá, acaba de achar esse produto incrível no ${process.env.NEXT_PUBLIC_REACT_APP_NAME}. Click no link abaixo para acessá-lo. ${process.env.NEXT_PUBLIC_REACT_APP_URL}/${page}/${slug}`}
+                href={`https://api.whatsapp.com/send?text= Olá, acaba de achar esse produto incrível no ${mktName}. Click no link abaixo para acessá-lo. ${appUrl}/${page}/${slug}`}
                 target="_blank"
                 rel="noreferrer"
               >

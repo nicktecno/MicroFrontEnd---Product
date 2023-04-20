@@ -4,7 +4,6 @@ import * as S from "./styles";
 
 //Carrossel atributos
 
-import wishListApi from "../../services/msWishList";
 import { useCart } from "../../Context/CartLengthContext";
 import { useState } from "react";
 
@@ -14,6 +13,9 @@ export function DeleteProjectModalWishList({
   modalDelete,
   codeOfList,
   modalEdicaoMobile,
+  headerUrl,
+  mktName,
+  wishListApi,
 }) {
   const { setCartLength } = useCart();
 
@@ -25,9 +27,7 @@ export function DeleteProjectModalWishList({
     setLoading(true);
 
     try {
-      const token = localStorage.getItem(
-        process.env.NEXT_PUBLIC_REACT_APP_NAME
-      );
+      const token = localStorage.getItem(mktName);
       if (token) {
         wishListApi.defaults.headers.Authorization = token;
       } else {
@@ -45,7 +45,7 @@ export function DeleteProjectModalWishList({
         {
           headers: {
             Type: "customer",
-            "Url-Store": process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL,
+            "Url-Store": headerUrl,
           },
         }
       );

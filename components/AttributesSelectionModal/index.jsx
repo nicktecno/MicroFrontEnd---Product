@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { GET_PRODUCT } from "../../services/Querys";
 
-function AttributesSelectionModal({ produto, page, sellerId }) {
+function AttributesSelectionModal({ produto, page, sellerId, imageUrl }) {
   const {
     data: productDataId,
     // eslint-disable-next-line no-unused-vars
@@ -44,7 +44,7 @@ function AttributesSelectionModal({ produto, page, sellerId }) {
               <img
                 src={
                   productDataId.children[0].images[0] &&
-                  `${process.env.NEXT_PUBLIC_REACT_APP_IMAGES_URL}/${productDataId.children[0].images[0].path}`
+                  `${imageUrl}/${productDataId.children[0].images[0].path}`
                 }
                 alt={productDataId.children[0].name}
               />

@@ -41,50 +41,33 @@ export const GET_PRODUCT = gql`
           }
         }
       }
-      parent {
-        id
-        name
-        product_id
-        attributes {
-          text_value
-          id
-          value
-          configurable
-          attribute {
-            code
-            admin_name
-            options {
-              id
-              code
-              admin_name
-            }
-          }
-        }
-        attribute_group {
-          name
-          attributes {
-            code
-            admin_name
-            options {
-              id
-              code
-              admin_name
-              url_image
-            }
-          }
-        }
+    }
+  }
+`;
+
+export const GET_PRODUCT_OTHER_OFFERS = gql`
+  query GetProduct($url_key: String!) {
+    children(url_key: $url_key) {
+      id
+      name
+      images {
+        path
       }
-      related {
+      attributes {
         id
-        name
-        url_key
-        product_id
-        min_price
-        max_price
-        images {
-          id
-          type
-          path
+        value
+        text_value
+        configurable
+        attribute {
+          code
+          admin_name
+          options {
+            id
+            code
+            admin_name
+            url_image
+            swatch_value
+          }
         }
       }
     }
@@ -92,42 +75,57 @@ export const GET_PRODUCT = gql`
 `;
 
 export const GET_PRODUCT_RELATED = gql`
-  query ProductRelated(
-    $id: Int!
-    $productId: Int!
-    $lat: String
-    $lng: String
-  ) {
+  query ProductRelated($id: Int!) {
     related(id: $id) {
       product_id
       name
       url_key
-      featured
-      min_price
-      max_price
+      stamps {
+        code
+        value
+        color
+      }
       images {
         id
-        type
         path
       }
-      offer(lat: $lat, lng: $lng, productId: $productId) {
-        id
-        sku_vendor
+      offer(lat: "null", lng: "null") {
         price
-        stock
-        status
+        installment {
+          installment_number
+          installment_value
+          interest_status
+        }
+        of_to_view
         promotional_price
         promotional_percentage
-        date_initial
-        date_final
         marketplace_seller_id
         marketplace_seller {
           url
-          shop_title
-          service_radius
         }
-        company_id
-        distance
+      }
+    }
+  }
+`;
+
+export const GET_OTHER_OFFERS = gql`
+  query GetOffers($lat: String, $lng: String, $id: Int!, $zipcode: String) {
+    offers(lat: $lat, lng: $lng, productId: $id) {
+      id
+      sku_vendor
+      price
+      stock
+      status
+      marketplace_seller_id
+      company_id
+      distance
+      of_to_view
+      promotional_price
+      promotional_percentage
+
+      marketplace_seller {
+        shop_title
+        url
       }
     }
   }
@@ -144,6 +142,32 @@ export const GET_OFFERS = gql`
       marketplace_seller_id
       company_id
       distance
+
+      of_to_view
+      promotional_price
+      promotional_percentage
+      marketplace_seller {
+        shop_title
+        url
+      }
+    }
+  }
+`;
+
+export const GET_OFFERS_SELLER = gql`
+  query GetOffers($lat: String, $lng: String, $id: Int!, $sellerId: Int!) {
+    offers(lat: $lat, lng: $lng, productId: $id, sellerId: $sellerId) {
+      id
+      sku_vendor
+      price
+      stock
+      status
+      marketplace_seller_id
+      company_id
+      distance
+      of_to_view
+      promotional_price
+      promotional_percentage
       marketplace_seller {
         shop_title
         url
@@ -181,12 +205,7 @@ export const GET_VARIANTS = gql`
 `;
 
 export const GET_PRODUCT_SELLER = gql`
-  query GetProduct(
-    $url_key: String!
-    $postcode: String
-    $seller_id: Int
-    $id: Int!
-  ) {
+  query GetProduct($url_key: String!, $id: Int!) {
     children(url_key: $url_key) {
       id
       name
@@ -224,53 +243,6 @@ export const GET_PRODUCT_SELLER = gql`
             url_image
             swatch_value
           }
-        }
-      }
-      parent {
-        id
-        name
-        product_id
-        attributes {
-          text_value
-          id
-          value
-          configurable
-          attribute {
-            code
-            admin_name
-            options {
-              id
-              code
-              admin_name
-            }
-          }
-        }
-        attribute_group {
-          name
-          attributes {
-            code
-            admin_name
-            options {
-              id
-              code
-              admin_name
-              url_image
-            }
-          }
-        }
-      }
-      offers(postcode: $postcode, seller_id: $seller_id) {
-        id
-        sku_vendor
-        price
-        stock
-        status
-        marketplace_seller_id
-        company_id
-        distance
-        marketplace_seller {
-          shop_title
-          url
         }
       }
     }

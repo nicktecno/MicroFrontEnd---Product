@@ -14,7 +14,7 @@ const ProductCardMicro = dynamic(
   }
 );
 
-const Hits = ({ hits, page, slider }) => {
+const Hits = ({ hits, page, slider, mktName }) => {
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
 
@@ -378,17 +378,9 @@ const Hits = ({ hits, page, slider }) => {
     window?.dataLayer?.push({
       event: "impressions",
       userId:
-        localStorage.getItem(
-          `${process.env.NEXT_PUBLIC_REACT_APP_NAME}_userId`
-        ) !== undefined &&
-        localStorage.getItem(
-          `${process.env.NEXT_PUBLIC_REACT_APP_NAME}_userId`
-        ) !== null
-          ? parseInt(
-              localStorage.getItem(
-                `${process.env.NEXT_PUBLIC_REACT_APP_NAME}_userId`
-              )
-            )
+        localStorage.getItem(`${mktName}_userId`) !== undefined &&
+        localStorage.getItem(`${mktName}_userId`) !== null
+          ? parseInt(localStorage.getItem(`${mktName}_userId`))
           : "Sem Login",
       pageCategory: page,
       pageTitle: page,

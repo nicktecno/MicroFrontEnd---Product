@@ -12,10 +12,6 @@ import notification from "../../services/notification";
 
 // Css do componente
 import * as S from "./styles";
-import api from "../../services/api";
-import wishListApi from "../../services/msWishList";
-import { useCart } from "../../Context/CartLengthContext";
-import msLocation from "../../services/msLocation";
 
 export function UpdateProjectModalWishList({
   getListWishList,
@@ -25,6 +21,13 @@ export function UpdateProjectModalWishList({
   setModalTerms,
   codeOfList,
   modalEdicaoMobile,
+  api,
+  wishListApi,
+  setCartLength,
+  msLocation,
+  mktName,
+  msLocationEnv,
+  headerUrl,
 }) {
   //states para wishlist
   const [nomeLista, setNomeLista] = useState("");
@@ -33,8 +36,6 @@ export function UpdateProjectModalWishList({
   const [nome, setNome] = useState("");
   const [cep, setCep] = useState("");
   const [endereco, setEndereco] = useState("");
-
-  const { setCartLength } = useCart();
 
   const [numero, setNumero] = useState("");
   const [complemento, setComplemento] = useState("");
@@ -66,9 +67,7 @@ export function UpdateProjectModalWishList({
     setModalUpdate("ativo");
 
     try {
-      const token = localStorage.getItem(
-        process.env.NEXT_PUBLIC_REACT_APP_NAME
-      );
+      const token = localStorage.getItem(mktName);
       if (token) {
         wishListApi.defaults.headers.Authorization = token;
       } else {
@@ -85,7 +84,7 @@ export function UpdateProjectModalWishList({
         {
           headers: {
             Type: "customer",
-            "Url-Store": process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL,
+            "Url-Store": headerUrl,
           },
         }
       );
@@ -221,9 +220,7 @@ export function UpdateProjectModalWishList({
       dataWishList.append("type", privacidade);
 
       try {
-        const token = localStorage.getItem(
-          process.env.NEXT_PUBLIC_REACT_APP_NAME
-        );
+        const token = localStorage.getItem(mktName);
         if (token) {
           wishListApi.defaults.headers.Authorization = token;
         } else {
@@ -243,7 +240,7 @@ export function UpdateProjectModalWishList({
             headers: {
               "Content-Type": "multipart/form-data",
               Type: "customer",
-              "Url-Store": process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL,
+              "Url-Store": headerUrl,
             },
           }
         );
@@ -313,9 +310,7 @@ export function UpdateProjectModalWishList({
         dataWishList.append("cover", imagesUpload[0].file);
       }
       try {
-        const token = localStorage.getItem(
-          process.env.NEXT_PUBLIC_REACT_APP_NAME
-        );
+        const token = localStorage.getItem(mktName);
         if (token) {
           wishListApi.defaults.headers.Authorization = token;
         } else {
@@ -335,7 +330,7 @@ export function UpdateProjectModalWishList({
             headers: {
               "Content-Type": "multipart/form-data",
               Type: "customer",
-              "Url-Store": process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL,
+              "Url-Store": headerUrl,
             },
           }
         );
@@ -416,9 +411,7 @@ export function UpdateProjectModalWishList({
         notification(`É necessário aceitar o ${terms.data.title}`, "error");
       } else {
         try {
-          const token = localStorage.getItem(
-            process.env.NEXT_PUBLIC_REACT_APP_NAME
-          );
+          const token = localStorage.getItem(mktName);
           if (token) {
             wishListApi.defaults.headers.Authorization = token;
           } else {
@@ -437,7 +430,7 @@ export function UpdateProjectModalWishList({
               headers: {
                 "Content-Type": "multipart/form-data",
                 Type: "customer",
-                "Url-Store": process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL,
+                "Url-Store": headerUrl,
               },
             }
           );
@@ -523,9 +516,7 @@ export function UpdateProjectModalWishList({
         notification(`É necessário aceitar o ${terms.data.title}`, "error");
       } else {
         try {
-          const token = localStorage.getItem(
-            process.env.NEXT_PUBLIC_REACT_APP_NAME
-          );
+          const token = localStorage.getItem(mktName);
           if (token) {
             wishListApi.defaults.headers.Authorization = token;
           } else {
@@ -545,7 +536,7 @@ export function UpdateProjectModalWishList({
               headers: {
                 "Content-Type": "multipart/form-data",
                 Type: "customer",
-                "Url-Store": process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL,
+                "Url-Store": headerUrl,
               },
             }
           );
@@ -598,7 +589,7 @@ export function UpdateProjectModalWishList({
 
   const handleCadastrarLocalizacaoAtual = () => {
     setLoading(true);
-    const url = process.env.NEXT_PUBLIC_REACT_APP_MS_LOCATION;
+    const url = msLocationEnv;
 
     navigator.geolocation.getCurrentPosition(async (position) => {
       const { latitude, longitude } = position.coords;

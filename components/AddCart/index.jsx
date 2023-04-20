@@ -8,7 +8,7 @@ import { ShareAlt } from "@styled-icons/boxicons-solid/ShareAlt";
 
 // Css do componente
 import * as S from "./style";
-import { useMenu } from "../../Context/Menu";
+
 import notification from "../../services/notification";
 import { useRouter } from "next/router";
 
@@ -25,14 +25,15 @@ function AddCart({
   showValueText,
   location,
   setShareModal,
+  mktName,
+  setOpenWishList,
 }) {
   const router = useRouter();
-  const { setOpenWishList } = useMenu();
 
   const [loggedState, setLoggedState] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem(process.env.NEXT_PUBLIC_REACT_APP_NAME)) {
+    if (localStorage.getItem(mktName)) {
       setLoggedState(true);
     }
   }, []);

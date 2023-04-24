@@ -65,7 +65,6 @@ const ProductPage = ({ data }) => {
         setCartLength={setCartLength}
         ssrData={data}
         imageUrl={imageUrl}
-        appTitle={appTitle}
         headerUrl={headerUrl}
         appUrl={appUrl}
         msLocation={msLocation}

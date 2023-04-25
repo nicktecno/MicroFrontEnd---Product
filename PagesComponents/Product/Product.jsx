@@ -24,6 +24,7 @@ import { DeleteProjectModalWishList } from "../../components/DeleteProjectModalW
 import { UpdateProjectModalWishList } from "../../components/UpdateProjectModalWishList";
 import ProductDetails from "../../components/ProductDetails";
 import AddCart from "../../components/AddCart";
+import ProductListApiGql from "../../components/ProductListApiGql";
 import ProductLoader from "../../components/Loaders/ProductLoader";
 
 import { BookAdd } from "@styled-icons/boxicons-regular/BookAdd";

@@ -1,11 +1,11 @@
 import * as S from "./style";
-import ProductBox from "../ProductBox";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
 const ProductCardMicro = dynamic(
   () => import("generalProductCards/productCard"),
@@ -413,7 +413,7 @@ const Hits = ({ hits, page, slider, mktName }) => {
               ) : (
                 <Slider {...settingsProducts}>
                   {hits.map((hit, index) => (
-                    <ProductBox
+                    <ProductCardMicro
                       key={index}
                       hit={hit}
                       slider={slider}

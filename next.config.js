@@ -51,6 +51,7 @@ const nextConfig = {
         filename: "static/chunks/remoteEntry.js",
         exposes: {
           "./productPage": "./PagesComponents/Product/Product.jsx",
+          "./otherOffers": "./PagesComponents/OtherOffers/OtherOffers.jsx",
         },
 
         extraOptions: {

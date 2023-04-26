@@ -147,6 +147,7 @@ function OtherOffersComponent({
   }
 
   async function handleCart(e) {
+    console.log("olá", e);
     const dataCart = [
       {
         product: parseInt(e.currentTarget.getAttribute("produto_id")),
@@ -180,8 +181,8 @@ function OtherOffersComponent({
     ];
 
     const authenticated = await api.get("/customer/authenticated");
-
-    if (authenticated.ssrData.authenticated) {
+    console.log(authenticated.data.authenticated);
+    if (authenticated.data.authenticated) {
       try {
         const response = await api.post(
           "/customer/checkout/cart/add",

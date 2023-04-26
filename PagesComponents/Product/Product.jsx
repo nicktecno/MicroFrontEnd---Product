@@ -2628,6 +2628,7 @@ function ProductComponent({
                             page={"product"}
                             slider="slider"
                             mktName={mktName}
+                            imageUrl={imageUrl}
                           />
                         </S.productsContainer>
                       )}

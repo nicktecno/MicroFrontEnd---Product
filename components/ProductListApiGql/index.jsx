@@ -14,7 +14,7 @@ const ProductCardMicro = dynamic(
   }
 );
 
-const Hits = ({ hits, page, slider, mktName }) => {
+const Hits = ({ hits, page, slider, mktName, imageUrl }) => {
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
 
@@ -407,6 +407,7 @@ const Hits = ({ hits, page, slider, mktName }) => {
                       hit={hit}
                       slider={slider}
                       page={page}
+                      appImagesUrl={imageUrl}
                     />
                   ))}
                 </Slider>
@@ -418,6 +419,7 @@ const Hits = ({ hits, page, slider, mktName }) => {
                       hit={hit}
                       slider={slider}
                       page={page}
+                      appImagesUrl={imageUrl}
                     />
                   ))}
                 </Slider>
@@ -430,6 +432,7 @@ const Hits = ({ hits, page, slider, mktName }) => {
                     hit={hit}
                     slider={slider}
                     page={page}
+                    appImagesUrl={imageUrl}
                   />
                 ))}
               </S.ProductsContainer>

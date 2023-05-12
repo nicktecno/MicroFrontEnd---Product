@@ -1,5 +1,4 @@
 import OtherOffersPage from "../../../PagesComponents/OtherOffers";
-
 import { initializeApollo } from "../../../services/apolloSsr";
 import { GET_PRODUCT } from "../../../services/Querys";
 
@@ -41,8 +40,34 @@ export async function getServerSideProps(ctx) {
     }
   }
 
+  function showValue(produto, atributo, manual = false) {
+    const value = produto.find((attr) => attr.attribute[0].code === atributo);
+
+    if (!manual && atributo === "installation_manual") {
+      return false;
+    }
+
+    if (value) {
+      return value.text_value ? value.text_value : value.value;
+    } else {
+      return false;
+    }
+  }
+
+  const title = `${process.env.NEXT_PUBLIC_REACT_APP_GENERAL_TITLE} -
+  ${showValue(product.attributes, "meta_title")}`;
+  const metaKeywords = showValue(product.attributes, "meta_keywords");
+  const metaDescription = showValue(product.attributes, "meta_description");
+  const metaKdt = `${process.env.NEXT_PUBLIC_REACT_APP_NAME} -
+  ${showValue(product.attributes, "meta_title")}`;
   return {
     props: {
+      seo: {
+        title,
+        metaDescription,
+        metaKdt,
+        metaKeywords,
+      },
       data: {
         images: imagens,
         product,

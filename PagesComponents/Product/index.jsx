@@ -25,6 +25,7 @@ const ProductPage = ({ data }) => {
   const headerUrl = process.env.NEXT_PUBLIC_REACT_APP_HEADER_URL;
   const appUrl = process.env.NEXT_PUBLIC_REACT_APP_URL;
   const msLocationEnv = process.env.NEXT_PUBLIC_REACT_APP_MS_LOCATION;
+  const appLocationOffer = process.env.NEXT_PUBLIC_REACT_APP_LOCATION_OFFER;
 
   function showValue(produto, atributo) {
     const value = produto?.find((attr) => attr.attribute[0].code === atributo);
@@ -69,6 +70,7 @@ const ProductPage = ({ data }) => {
         appUrl={appUrl}
         msLocation={msLocation}
         msLocationEnv={msLocationEnv}
+        appLocationOffer={appLocationOffer}
       />
     </>
   );

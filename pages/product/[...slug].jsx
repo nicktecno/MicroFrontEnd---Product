@@ -1,18 +1,27 @@
 import ProductPage from "../../PagesComponents/Product";
 
 import { initializeApollo } from "../../services/apolloSsr";
-import {
-  GET_PRODUCT,
-  GET_PRODUCTID,
-  GET_PRODUCT_SELLER,
-} from "../../services/Querys";
+import { GET_PRODUCT, GET_PRODUCTID } from "../../services/Querys";
 
 export default function Product({ data }) {
+  function showValue(produto, atributo, manual = false) {
+    const value = produto.find((attr) => attr.attribute[0].code === atributo);
+
+    if (!manual && atributo === "installation_manual") {
+      return false;
+    }
+
+    if (value) {
+      return value.text_value ? value.text_value : value.value;
+    } else {
+      return false;
+    }
+  }
   return <ProductPage data={data} />;
 }
 
-export async function getServerSideProps({ params, resolvedUrl }) {
-  const { slug } = params;
+export async function getServerSideProps(ctx) {
+  const { slug } = ctx.params;
 
   const apolloClient = initializeApollo();
   let dataProductWithoutId = "";
@@ -20,18 +29,12 @@ export async function getServerSideProps({ params, resolvedUrl }) {
   let product = {};
   let id = "";
 
-  const filterRoute = resolvedUrl.includes("/sellerproduct")
-    ? { seller_id: parseInt(slug[0]), url_key: slug[1] }
-    : { url_key: slug[0] };
-
-  const filterQuery = resolvedUrl.includes("/sellerproduct")
-    ? GET_PRODUCT_SELLER
-    : GET_PRODUCT;
-
   try {
     const { data: response } = await apolloClient.query({
       query: GET_PRODUCTID,
-      variables: filterRoute,
+      variables: {
+        url_key: slug[0],
+      },
     });
     dataProductWithoutId = response;
     id = parseInt(dataProductWithoutId.children[0].parent[0].product_id);
@@ -42,13 +45,15 @@ export async function getServerSideProps({ params, resolvedUrl }) {
 
   if (id !== undefined) {
     const { data: dataProductWithId } = await apolloClient.query({
-      query: filterQuery,
-      variables: { ...filterRoute, id },
+      query: GET_PRODUCT,
+      variables: {
+        url_key: slug[0],
+        id,
+      },
     });
     product = dataProductWithId.children[0];
 
     if (dataProductWithId.children[0].images) {
-      // eslint-disable-next-line array-callback-return
       dataProductWithId.children[0].images.map((imagem, index) => {
         imagens.push({
           original:
@@ -62,13 +67,39 @@ export async function getServerSideProps({ params, resolvedUrl }) {
     }
   }
 
+  function showValue(produto, atributo, manual = false) {
+    const value = produto.find((attr) => attr.attribute[0].code === atributo);
+
+    if (!manual && atributo === "installation_manual") {
+      return false;
+    }
+
+    if (value) {
+      return value.text_value ? value.text_value : value.value;
+    } else {
+      return false;
+    }
+  }
+
+  const title = `${process.env.NEXT_PUBLIC_REACT_APP_GENERAL_TITLE} -
+  ${showValue(product.attributes, "meta_title")}`;
+  const metaKeywords = showValue(product.attributes, "meta_keywords");
+  const metaDescription = showValue(product.attributes, "meta_description");
+  const metaKdt = `${process.env.NEXT_PUBLIC_REACT_APP_NAME} -
+  ${showValue(product.attributes, "meta_title")}`;
+
   return {
     props: {
+      seo: {
+        title,
+        metaDescription,
+        metaKdt,
+        metaKeywords,
+      },
       data: {
         images: imagens,
         id,
         product,
-        resolvedUrl,
       },
       initialApolloState: apolloClient.cache.extract(),
     },

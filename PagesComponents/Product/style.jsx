@@ -916,7 +916,7 @@ export const ContainerPrice = styled.div`
     font-weight: bold;
     border-radius: 2px;
     align-items: center;
-    background-color: var(--default-color);
+    background-color: var(--stamp-percentage-discount);
     justify-content: center;
   }
   .price {

@@ -38,6 +38,9 @@ const nextConfig = {
       new NextFederationPlugin({
         name: "productPage",
         remotes: {
+          layout: `layout@https://micro-front-layout.vercel.app//_next/static/${
+            isServer ? "ssr" : "chunks"
+          }/remoteEntry.js`,
           loginPage: `loginPage@https://micro-front-login.vercel.app/_next/static/${
             isServer ? "ssr" : "chunks"
           }/remoteEntry.js`,

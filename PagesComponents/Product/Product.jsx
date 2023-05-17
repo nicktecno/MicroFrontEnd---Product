@@ -1317,7 +1317,7 @@ function ProductComponent({
                 {loadingAddList ? (
                   <img
                     className="loading"
-                    src="/images/loadingIcon.gif"
+                    src="/images/loadingIcon.svg"
                     alt="Carregando"
                   />
                 ) : (
@@ -1484,7 +1484,7 @@ function ProductComponent({
                                 {offerLoading ? (
                                   <S.ContainerLoading>
                                     <img
-                                      src="/images/loadingIcon.gif"
+                                      src="/images/loadingIcon.svg"
                                       alt="loading"
                                     />
                                     <div className="loading">
@@ -1898,7 +1898,7 @@ function ProductComponent({
                             ) : (
                               <S.ContainerLoading>
                                 <img
-                                  src="/images/loadingIcon.gif"
+                                  src="/images/loadingIcon.svg"
                                   alt="loading"
                                 />
                                 <div className="loading">Carregando Frete</div>
@@ -2007,7 +2007,7 @@ function ProductComponent({
                               {varianteLoading ? (
                                 <S.ContainerLoading>
                                   <img
-                                    src="/images/loadingIcon.gif"
+                                    src="/images/loadingIcon.svg"
                                     alt="loading"
                                   />
                                   <div className="loading">

@@ -1,6 +1,6 @@
 import OtherOffersPage from "../../../PagesComponents/OtherOffers";
 import { initializeApollo } from "../../../services/apolloSsr";
-import { GET_PRODUCT } from "../../../services/Querys";
+import { GET_PRODUCT, GET_PRODUCTID } from "../../../services/Querys";
 
 export default function OtherOffers({ data }) {
   return <OtherOffersPage data={data} />;
@@ -10,10 +10,24 @@ export async function getServerSideProps(ctx) {
   const { slug } = ctx.params;
 
   const apolloClient = initializeApollo();
-
+  let dataProductWithoutId = "";
   let imagens = [];
   let product = {};
-  let id = parseInt(slug[1]);
+  let id = "";
+
+  try {
+    const { data: response } = await apolloClient.query({
+      query: GET_PRODUCTID,
+      variables: {
+        url_key: slug[0],
+      },
+    });
+    dataProductWithoutId = response;
+    id = parseInt(dataProductWithoutId.children[0].parent[0].product_id);
+  } catch (e) {
+    console.log(e);
+    return { redirect: { destination: "/404", permanent: false } };
+  }
 
   if (id !== undefined) {
     const { data: dataProductWithId } = await apolloClient.query({
@@ -26,7 +40,6 @@ export async function getServerSideProps(ctx) {
     product = dataProductWithId.children[0];
 
     if (dataProductWithId.children[0].images) {
-      // eslint-disable-next-line array-callback-return
       dataProductWithId.children[0].images.map((imagem, index) => {
         imagens.push({
           original:
@@ -60,6 +73,7 @@ export async function getServerSideProps(ctx) {
   const metaDescription = showValue(product.attributes, "meta_description");
   const metaKdt = `${process.env.NEXT_PUBLIC_REACT_APP_NAME} -
   ${showValue(product.attributes, "meta_title")}`;
+
   return {
     props: {
       seo: {
@@ -70,6 +84,7 @@ export async function getServerSideProps(ctx) {
       },
       data: {
         images: imagens,
+        id,
         product,
       },
       initialApolloState: apolloClient.cache.extract(),

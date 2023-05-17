@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 
 const HeaderMicro = dynamic(() => import("layout/header"), { ssr: false });
@@ -15,6 +15,7 @@ import { useCart } from "../../Context/CartLengthContext";
 import { useLocation } from "../../Context/Location";
 import api from "../../services/api";
 import { Context } from "../../Context/AuthContext";
+import { useNotifications } from "../../Context/Notification";
 
 const Layout = (props) => {
   const { openMenu, setOpenMenu, setMenuState, menuState } = useMenu();
@@ -31,7 +32,7 @@ const Layout = (props) => {
     setAtualizarModalPagina,
   } = useLocation();
   const { cartLength, setCartLength } = useCart();
-
+  const { getNotificationStatus, unreadNotifications } = useNotifications();
   const { colorThemes, chooseMktOption, selectedMkt } = useColorTheme();
   const { validaLogin } = useContext(Context);
 
@@ -50,6 +51,9 @@ const Layout = (props) => {
   const envGeo = process.env.NEXT_PUBLIC_REACT_APP_GOOGLE_MAPS_API_KEY;
   const envMsLocation = process.env.NEXT_PUBLIC_REACT_APP_MS_LOCATION;
   const logo = defaultLayout[0]["logo-img"];
+  const timerIdSandwich = useRef(null);
+  const refButtons = useRef([]);
+  const timerId = useRef(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -68,7 +72,6 @@ const Layout = (props) => {
             : defaultLayout
         }
       />
-
       <HeaderMicro
         mktName={mktName}
         envGeo={envGeo}
@@ -93,7 +96,13 @@ const Layout = (props) => {
         setMenuState={setMenuState}
         menuState={menuState}
         logo={logo}
+        getNotificationStatus={getNotificationStatus}
+        unreadNotifications={unreadNotifications}
+        timerIdSandwich={timerIdSandwich}
+        refButtons={refButtons}
+        timerId={timerId}
       />
+
       <div className="contentFull">{props.children}</div>
       <FooterMicro
         mktName={mktName}

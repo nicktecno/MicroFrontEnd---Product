@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { LangProvider } from "../Context/LangContext";
 import { AuthProvider } from "../Context/AuthContext";
 import { CartLengthProvider } from "../Context/CartLengthContext";
+import { NotificationProvider } from "../Context/Notification";
 import { ColorThemeProvider } from "../Context/ColorTheme";
 import { LocationProvider } from "../Context/Location";
 import { MenuProvider } from "../Context/Menu";
@@ -10,6 +11,7 @@ import { useApollo } from "../services/apolloSsr";
 import { useEffect } from "react";
 
 import apiUnlogged from "../services/apiUnlogged";
+import TagManager from "react-gtm-module";
 
 function MyApp({ Component, pageProps }) {
   const client = useApollo(pageProps.initialApolloState);
@@ -95,15 +97,17 @@ function MyApp({ Component, pageProps }) {
       <LangProvider>
         <CartLengthProvider>
           <AuthProvider>
-            <ColorThemeProvider>
-              <LocationProvider>
-                <MenuProvider>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </MenuProvider>
-              </LocationProvider>
-            </ColorThemeProvider>
+            <NotificationProvider>
+              <ColorThemeProvider>
+                <LocationProvider>
+                  <MenuProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </MenuProvider>
+                </LocationProvider>
+              </ColorThemeProvider>
+            </NotificationProvider>
           </AuthProvider>
         </CartLengthProvider>
       </LangProvider>

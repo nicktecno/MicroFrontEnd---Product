@@ -14,6 +14,8 @@ import currencyFormat from "../../services/currencyFormat";
 import notification from "../../services/notification";
 import { GET_OFFERS } from "../../services/Querys";
 
+import { LocationPin } from "@styled-icons/entypo/LocationPin";
+
 function OtherOffersComponent({
   ssrData,
   imageUrl,
@@ -23,6 +25,7 @@ function OtherOffersComponent({
   setOpenLocationModal,
   locationModal,
   located,
+  locationOffer,
   routeTranslations,
 }) {
   const history = useRouter();
@@ -147,7 +150,6 @@ function OtherOffersComponent({
   }
 
   async function handleCart(e) {
-    console.log("olá", e);
     const dataCart = [
       {
         product: parseInt(e.currentTarget.getAttribute("produto_id")),
@@ -181,7 +183,7 @@ function OtherOffersComponent({
     ];
 
     const authenticated = await api.get("/customer/authenticated");
-    console.log(authenticated.data.authenticated);
+
     if (authenticated.data.authenticated) {
       try {
         const response = await api.post(
@@ -203,44 +205,47 @@ function OtherOffersComponent({
   }
 
   async function getShipment(product, cart, location) {
-    let carriers = [];
+    if (
+      located &&
+      offerData.offers[0].distance === 0 &&
+      locationOffer === "true"
+    ) {
+      await refetchOffer();
+    }
     try {
-      await cart.map(async (deliver, index) => {
-        const postData = {
-          items: [{ product: product.id, offer: deliver.id, quantity: 1 }],
-          seller_id: deliver.marketplace_seller_id,
-          zipcode:
-            location.zipcode !== undefined
-              ? location.zipcode
-              : location.postcode !== undefined
-              ? location.postcode
-              : location.postalcode,
-        };
+      const carriers = await Promise.all(
+        cart.map(async (deliver, index) => {
+          const postData = {
+            items: [{ product: product.id, offer: deliver.id, quantity: 1 }],
+            seller_id: deliver.marketplace_seller_id,
+            zipcode:
+              location.zipcode !== undefined
+                ? location.zipcode
+                : location.postcode !== undefined
+                ? location.postcode
+                : location.postalcode,
+          };
 
-        const { data: response } = await apiUnlogged.post(
-          "/shipping/calculate",
-          postData,
-          {
-            headers: { Accept: "application/json" },
-          }
-        );
-
-        carriers.push({
-          deliveryOptions: response.map((shipping, index) => {
-            return { ...shipping, index };
-          }),
-          sellerData: deliver,
-        });
-
-        if (carriers.length > 0 && carriers.length === cart.length) {
-          setShipping(
-            carriers.sort(
-              (a, b) => a.sellerData.distance - b.sellerData.distance
-            )
+          const { data: response } = await apiUnlogged.post(
+            "/shipping/calculate",
+            postData,
+            {
+              headers: { Accept: "application/json" },
+            }
           );
-          setLoading(false);
-        }
-      });
+
+          return {
+            deliveryOptions: response.map((shipping, index) => {
+              return { ...shipping, index };
+            }),
+            sellerData: deliver,
+          };
+        })
+      );
+      if (carriers.length > 0 && carriers.length === cart.length) {
+        setShipping(carriers);
+        setLoading(false);
+      }
     } catch (e) {
       setLoading(false);
       console.log(e);
@@ -262,11 +267,15 @@ function OtherOffersComponent({
 
           setVarianteProdutoAtual(mapFiltroAtual);
 
-          const ofertasOrdenadas = [...offerData?.offers].sort(
-            (a, b) => a.distance - b.distance
-          );
+          if (locationOffer === "true") {
+            const ofertasOrdenadas = [...offerData?.offers].sort(
+              (a, b) => a.distance - b.distance
+            );
 
-          getShipment(ssrData.product, ofertasOrdenadas, location);
+            getShipment(ssrData.product, ofertasOrdenadas, location);
+          } else {
+            getShipment(ssrData.product, offerData.offers, location);
+          }
         }
       }
     }
@@ -348,7 +357,7 @@ function OtherOffersComponent({
                           lg={2}
                         >
                           <div className="containerSVG">
-                            <p>teste</p>
+                            <LocationPin />
                           </div>
                         </Col>
                         <Col
@@ -422,8 +431,7 @@ function OtherOffersComponent({
                               className="colContainerDados distanceDesk"
                             >
                               <p>
-                                {location.postalcode === undefined ||
-                                oferta.sellerData.distance == 0 ? (
+                                {!located || oferta.sellerData.distance == 0 ? (
                                   <S.alingLoader>
                                     <S.ErrorIcon />
                                   </S.alingLoader>
@@ -440,8 +448,7 @@ function OtherOffersComponent({
                               className="colContainerDados distanceMobile"
                             >
                               <p>
-                                {location.postalcode === undefined ||
-                                oferta.sellerData.distance == 0 ? (
+                                {!located || oferta.sellerData.distance == 0 ? (
                                   <S.alingLoader>
                                     <S.ErrorIcon />
                                   </S.alingLoader>
@@ -461,7 +468,7 @@ function OtherOffersComponent({
                               <>
                                 <span style={{ fontWeight: "bold" }}></span>
 
-                                {location.postalcode === undefined ? (
+                                {!located ? (
                                   <S.noShipment>
                                     <S.locationButton
                                       onClick={() =>
@@ -687,7 +694,7 @@ function OtherOffersComponent({
                           lg={2}
                         >
                           <div className="containerSVG">
-                            <p>teste</p>
+                            <LocationPin />
                           </div>
                         </Col>
                         <Col
@@ -751,8 +758,7 @@ function OtherOffersComponent({
                               className="colContainerDados distanceDesk"
                             >
                               <p>
-                                {location.postalcode === undefined ||
-                                oferta.sellerData.distance == 0 ? (
+                                {!located || oferta.sellerData.distance == 0 ? (
                                   <S.alingLoader>
                                     <S.ErrorIcon />
                                   </S.alingLoader>
@@ -769,8 +775,7 @@ function OtherOffersComponent({
                               className="colContainerDados distanceMobile"
                             >
                               <p>
-                                {location.postalcode === undefined ||
-                                oferta.sellerData.distance == 0 ? (
+                                {!located && oferta.sellerData.distance == 0 ? (
                                   <S.alingLoader>
                                     <S.ErrorIcon />
                                   </S.alingLoader>
@@ -790,7 +795,7 @@ function OtherOffersComponent({
                               <>
                                 <span style={{ fontWeight: "bold" }}></span>
 
-                                {location.postalcode === undefined ? (
+                                {!located ? (
                                   <S.noShipment>
                                     <S.locationButton
                                       onClick={() =>

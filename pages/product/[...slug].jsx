@@ -4,19 +4,6 @@ import { initializeApollo } from "../../services/apolloSsr";
 import { GET_PRODUCT, GET_PRODUCTID } from "../../services/Querys";
 
 export default function Product({ data }) {
-  function showValue(produto, atributo, manual = false) {
-    const value = produto.find((attr) => attr.attribute[0].code === atributo);
-
-    if (!manual && atributo === "installation_manual") {
-      return false;
-    }
-
-    if (value) {
-      return value.text_value ? value.text_value : value.value;
-    } else {
-      return false;
-    }
-  }
   return <ProductPage data={data} />;
 }
 

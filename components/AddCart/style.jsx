@@ -31,7 +31,7 @@ export const box = styled.div`
       max-width: 100%;
       margin-top: 0px;
       margin-bottom: 0px;
-      height: 80px;
+      height: 62px;
       
       display: flex;
       left:0%;
@@ -53,7 +53,7 @@ export const box = styled.div`
 
     .containerFunctions {
       display: flex;
-      margin-bottom: 10px;
+      margin-bottom: 0px;
       justify-content: flex-start;
       ${customMedia.lessThan("notebook")`
 
@@ -237,7 +237,7 @@ justify-content:center;
   `}
 ${customMedia.lessThan("tablet")`{
      width:200px ;
-    height:50px;
+    height:40px;
     margin-left:10px;
     padding:15px 10px;
   `}

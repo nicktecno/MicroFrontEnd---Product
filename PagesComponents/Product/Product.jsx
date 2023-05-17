@@ -2659,14 +2659,7 @@ function ProductComponent({
           <AddedProduct addCart={addCart} setAddCart={setAddCart} />
         )}
       </S.GeneralContainer>
-      {located &&
-      offerData !== undefined &&
-      offerData !== null &&
-      offerData.length > 0 ? (
-        <S.ContainerFooter></S.ContainerFooter>
-      ) : (
-        <></>
-      )}
+
       <ToastContainer />
     </>
   );
